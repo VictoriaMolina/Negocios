@@ -23,6 +23,11 @@ const productoSchema = new mongoose.Schema({
     image:{
         type: String,
         required: false
+    },
+    negocio: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Negocio',
+        required: true
     }
 });
 

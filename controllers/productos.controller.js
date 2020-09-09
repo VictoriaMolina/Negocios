@@ -7,6 +7,7 @@ const {Productos} = require('../models/productos.models');
  */
 async function nuevoProducto(req, res){
     const body = req.body;
+    const negocio = req.body.negocio;
 
     if(body.nom && body.desc && body.img && body.costo && body.disp){
         try{
@@ -17,7 +18,8 @@ async function nuevoProducto(req, res){
                 costo: body.costo,
                 disponibilidad: body.disp,
                 colores: body.colores ? body.colores : "",
-                tamaño: body.tamaño ? body.tamaño : ""
+                tamaño: body.tamaño ? body.tamaño : "",
+                negocio: negocio
             }).save();
 
             if(nuevoProducto) {
@@ -43,8 +45,11 @@ async function nuevoProducto(req, res){
  * @param {*} res - request Object
  */
 async function productoList(req, res){
+    const negocio = req.query.negocio;
     try{
-        const results = await Productos.find({});
+        const results = await Productos.find({
+            negocio: negocio
+        });
         if(results){
             res.json({
                 'data': results

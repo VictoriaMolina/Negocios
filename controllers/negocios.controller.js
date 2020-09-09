@@ -7,14 +7,13 @@ const { Negocios } = require('../models/negocios.models');
  */
 async function nuevoNegocio(req, res){
     const body = req.body
-    const producto = req.body.producto;
 
-    if(body.coo && body.tipo){
+    if(body.lon && body.lat && body.tipo){
         try{
             const nuevoNegocio = await Negocios({
-                coordenadas: body.coo,
+                longitud: body.lon,
+                latitud: body.lat,
                 tipo: body.tipo,
-                producto: producto
             }).save();
 
             if(nuevoNegocio) {

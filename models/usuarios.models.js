@@ -17,16 +17,7 @@ const usuarioSchema = new mongoose.Schema({
     contraseña: {
         type: String,
         required: true
-    },
-    carrito: [
-        {
-            type: mongoose.Schema.ObjectId, ref: "Pedido",
-            cantidad: {
-                type: Number,
-                required: true
-            }
-        }
-    ]
+    }
 });
 
 const Usuarios = mongoose.model('Usuario', usuarioSchema);

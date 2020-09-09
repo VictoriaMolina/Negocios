@@ -1,5 +1,17 @@
 const mongoose = require('mongoose');
 
+const productoSchema = new mongoose.Schema ({
+    producto: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Productos',
+        required: true,
+    },
+    cantidad: {
+        type: Number,
+        default: 1
+    }
+});
+
 const pedidoSchema = new mongoose.Schema({
 
     usuario: {
@@ -7,16 +19,15 @@ const pedidoSchema = new mongoose.Schema({
         ref: 'Usuarios',
         required: true
     },
-    productos: {
-        id: {
-            type: mongoose.Schema.ObjectId,
-            ref: 'Productos',
-            required: true
-        }
+    productos:[productoSchema],
+    estatus: {
+        type: String,
+        values: ["Pendiente", "Listo", "Preparando", "En proceso", "Listo para entrega"],
+        default: "En proceso"
     },
-    cantidad: {
-        type: Number,
-        default: 1
+    comentario: {
+        type: String,
+        required: true
     }
 });
 

@@ -2,20 +2,17 @@ const mongoose = require('mongoose');
 
 const negocioSchema = new mongoose.Schema({
 
-    coordenadas: {
+    latitud: {
+        type: String,
+        required: true
+    },
+    longitud: {
         type: String,
         required: true
     },
     tipo: {
         type: String,
         required: true
-    },
-    productos: {
-        id: {
-            type: mongoose.Schema.ObjectId,
-            ref: 'Productos',
-            required: true
-        }
     }
 });
 
