@@ -16,7 +16,7 @@ router.post('/new', nuevoNegocio);
 /**
  * Ruta que muestra una lista de negocios.
  */
-router.get('/list', negociosList);
+router.post('/list', negociosList);
 
 /**
  * Ruta para actualizar datos del negocio.

@@ -5,8 +5,10 @@ const {
     agregarPedido,
     actualizarEstatus,
     agregarComentario,
-    pedidosLista,
-    estatusLista
+    usuarioLista,
+    negocioLista,
+    estatusLista,
+    pedidoDelete
     
 } = require ('../controllers/pedido.controller');
 /**
@@ -27,8 +29,16 @@ router.post('/comentario', agregarComentario);
 /**
  * Ruta que muestra lista de pedidos.
  */
-router.get('/list', pedidosLista);
+router.get('/list', usuarioLista);
+
+/**
+ * Ruta que muestra lista de pedidos.
+ */
+router.get('/negociolist', negocioLista);
 
 router.get('/status', estatusLista);
-
+/**
+ * Ruta que elimine un pedido de la lista.
+ */
+router.post('/delete', pedidoDelete);
 module.exports = router;

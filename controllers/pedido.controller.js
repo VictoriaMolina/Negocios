@@ -13,8 +13,9 @@ async function agregarPedido (req, res){
                     producto: productos,
                     cantidad: body.cant
                 }],
-                comentario: body.comentario
-            }).save();
+                comentario: body.comentario ? body.comentario : "",
+                $push: {producto: productos}
+            }).save()
 
             if(pedido) {
                 res.json({'data': pedido});
@@ -71,9 +72,9 @@ async function actualizarEstatus(req, res){
     if (pedidoId) {
         try{
             const estatusPedido = await Pedidos.updateOne({
-                id: estatus,
+                id: pedidoId,
                 $set: {
-                    estatus: 'Listo para entrega'
+                    estatus: estatus
                 }
             });
 
@@ -115,9 +116,13 @@ async function estatusLista(req, res){
  * @param {*} req - Request Object
  * @param {*} res - request Object
  */
-async function pedidosLista(req, res){
+async function usuarioLista(req, res){
+    const usuario = req.query.usuario;
+
     try{
-        const list = await Pedidos.find({});
+        const list = await Pedidos.find({
+            usuario: usuario
+        });
         if(list){
             res.json({
                 'data': list
@@ -134,10 +139,68 @@ async function pedidosLista(req, res){
         });
     }
 };
+
+/**
+ * Funcion que muestra una lista de pedidos.
+ * @param {*} req - Request Object
+ * @param {*} res - request Object
+ */
+async function negocioLista(req, res){
+    const negocio = req.query.negocio;
+
+    try{
+        const list = await Pedidos.find({
+            negocio: negocio
+        });
+        if(list){
+            res.json({
+                'data': list
+            });
+        } else {
+            res.json({
+                'data': {}
+            });
+        }
+    }catch(err){
+        console.log(err);
+        res.json({
+            'data': {}
+        });
+    }
+};
+
+
+/**
+ * Función que elimina un pedido de la lista.
+ */
+async function pedidoDelete(req, res){
+    const pedidoId = req.body.id;
+
+    if(pedidoId){
+        try{
+            const results = await Pedidos.deleteOne({
+                _id: pedidoId
+            });
+
+            if(results){
+                res.json({'data': results});
+            } else {
+                res.status(500).send("ERROR ELIMINANDO.");
+            }
+        }catch(err){
+            console.log(err);
+            res.status(500).send("ERROR ELIMINANDO");
+        }
+    } else {
+        res.status(402).send("PARAMETROS ERRONEOS");
+    }
+}
 module.exports = {
     agregarPedido,
     actualizarEstatus,
     agregarComentario,
-    pedidosLista,
-    estatusLista
+    usuarioLista,
+    negocioLista,
+    estatusLista,
+    pedidoDelete
 };

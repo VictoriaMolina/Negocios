@@ -3,7 +3,8 @@ const router = express.Router();
 
 const {
     nuevoUsuario,
-    usuariosList
+    usuariosList,
+    usuarioDelete
 } = require ('../controllers/usuarios.controller');
 
 /**
@@ -16,4 +17,8 @@ router.post('/new', nuevoUsuario);
  */
 router.get('/list', usuariosList);
 
+/**
+ * Ruta que elimina un usuario de la lista.
+ */
+router.post('/delete', usuarioDelete);
 module.exports = router;

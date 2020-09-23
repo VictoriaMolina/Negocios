@@ -34,22 +34,35 @@ async function nuevoNegocio(req, res){
  * Función que muestra una lista de negocios.
  */
 async function negociosList(req, res){
-    try{
-        const list = await Negocios.find({});
-        if(list){
-            res.json({
-                'data': list
+    const body = req.body
+
+    if(body.lon && body.lat && body.tipo) {
+        try{
+            const results = await Negocios.findOne({
+                longitud: body.lon,
+                latitud: body.lat,
+                tipo: body.tipo
             });
-        } else {
+                
+            if(results){
+                res.json({
+                    'data': results
+                });
+            } else {
+                res.json({
+                    'data': {}
+                });
+            }
+    
+            
+        }catch(err){
             res.json({
                 'data': {}
             });
         }
-    }catch(err){
-        console.log(err);
-        res.json({
-            'data': {}
-        });
+
+    } else {
+        res.status(402.).send("PARAMETROS ERRONEOS.");
     }
 };
 
@@ -58,6 +71,9 @@ async function negociosList(req, res){
  */
 async function negocioUpdate(req, res){
     const negocio = req.body.id;
+    const tipo = req.body.tipo;
+    const longitud = req.body.longitud;
+    const latitud = req.body.latitud;
 
     try{
         if(negocio){
@@ -65,7 +81,9 @@ async function negocioUpdate(req, res){
                 _id: negocio
             }, {
                 $set: {
-                    tipo: "Tienda de Abarrotes"
+                    tipo: tipo,
+                    longitud: longitud,
+                    latitud: latitud
                 }
             });
 
@@ -87,7 +105,9 @@ async function negocioDelete(req, res){
 
     if(negocioId){
         try{
-            const results = await Negocios.deleteOne();
+            const results = await Negocios.deleteOne({
+                _id: negocioId
+            });
 
             if(results){
                 res.json({'data': results});

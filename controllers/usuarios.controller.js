@@ -52,7 +52,34 @@ async function usuariosList(req, res){
     }
 };
 
+/**
+ * Función que elimina un usuario de la lista.
+ */
+async function usuarioDelete(req, res){
+    const usuarioId = req.body.id;
+
+    if(usuarioId){
+        try{
+            const results = await Usuarios.deleteOne({
+                _id: usuarioId
+            });
+
+            if(results){
+                res.json({'data': results});
+            } else {
+                res.status(500).send("ERROR ELIMINANDO.");
+            }
+        }catch(err){
+            console.log(err);
+            res.status(500).send("ERROR ELIMINANDO");
+        }
+    } else {
+        res.status(402).send("PARAMETROS ERRONEOS");
+    }
+}
+
 module.exports = {
     nuevoUsuario,
-    usuariosList
+    usuariosList,
+    usuarioDelete
 };

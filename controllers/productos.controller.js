@@ -49,7 +49,7 @@ async function productoList(req, res){
     try{
         const results = await Productos.find({
             negocio: negocio
-        });
+        }).select({nombre: 1, descripcion:1, imagen:1, costo:1});
         if(results){
             res.json({
                 'data': results
@@ -112,6 +112,12 @@ async function productoInfo(req, res){
  */
 async function productoUpdate(req, res){
     const updateId = req.body.id;
+    const nombre = req.body.nom;
+    const descripcion = req.body.desc;
+    const imagen = req.body.img;
+    const costo = req.body.costo;
+    const disponibilidad = req.body.disp;
+    const megocio = req.body.negocio;
 
         try{
 
@@ -121,7 +127,12 @@ async function productoUpdate(req, res){
                 }, {
 
                     $set: {
-                        disponibilidad: "Agotado",
+                        nombre: nombre,
+                        descripcion: descripcion,
+                        imagen: imagen,
+                        costo: costo,
+                        disponibilidad: disponibilidad,
+                        negocio: negocio
                     }
                 });
 
@@ -146,7 +157,9 @@ async function productoDelete(req, res){
 
     if(productoId) {
         try{
-            const results = await Productos.deleteOne();
+            const results = await Productos.deleteOne({
+                _id: productoId
+            });
 
             if(results) {
                 res.json({'data': results});
