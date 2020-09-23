@@ -4,11 +4,13 @@ async function agregarPedido (req, res){
     const body = req.body;
     const productos = req.body.producto;
     const usuario = req.body.id;
+    const negocio = req.body.id2;
 
     if(body.id && body.producto && body.cant){
         try{
             const pedido = await Pedidos({
                 usuario: usuario,
+                negocio: negocio,
                 productos: [{
                     producto: productos,
                     cantidad: body.cant

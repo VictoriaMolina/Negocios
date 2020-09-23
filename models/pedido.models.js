@@ -19,6 +19,11 @@ const pedidoSchema = new mongoose.Schema({
         ref: 'Usuarios',
         required: true
     },
+    negocio: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Negocio',
+        required: true
+    },
     productos:[productoSchema],
     estatus: {
         type: String,
